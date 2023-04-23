@@ -3,8 +3,10 @@ package com.acme.statusmgr.beans;
 public class FreeJvmMemoryDecorator implements  ServerStatusInterface{
 
     private final ServerStatusInterface severStatus;
-    public FreeJvmMemoryDecorator(ServerStatusInterface serverStatus) {
+    private final SystemStatusFacadeInterface systemStatusFacade;
+    public FreeJvmMemoryDecorator(ServerStatusInterface serverStatus, SystemStatusFacadeInterface systemStatusFacade) {
         this.severStatus = serverStatus;
+        this.systemStatusFacade = systemStatusFacade;
     }
 
     @Override
@@ -19,7 +21,7 @@ public class FreeJvmMemoryDecorator implements  ServerStatusInterface{
 
     @Override
     public String getStatusDesc() {
-        return severStatus.getStatusDesc() + SystemStatusFacade.getFreeMemory();
+        return severStatus.getStatusDesc() + systemStatusFacade.getFreeMemory();
     }
 
     @Override

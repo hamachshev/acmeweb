@@ -34,6 +34,9 @@ public class StatusController {
     protected static final String template = "Server Status requested by %s";
     protected final AtomicLong counter = new AtomicLong();
 
+    private static SystemStatusFacadeInterface systemStatusFacade = new SystemStatusFacade();
+
+
     /**
      * Process a request for server status information
      *
@@ -70,11 +73,11 @@ public class StatusController {
 
             for(String detail : details) {
                 switch (detail) {
-                    case "availableProcessors" -> detailedStatus = new AvailableProcessorsDecorator(detailedStatus);
-                    case "freeJVMMemory" -> detailedStatus = new FreeJvmMemoryDecorator(detailedStatus);
-                    case "totalJVMMemory" -> detailedStatus = new TotalJVMMemoryDecorator(detailedStatus);
-                    case "jreVersion" -> detailedStatus = new JREVersionDecorator(detailedStatus);
-                    case "tempLocation" -> detailedStatus = new TempLocationDecorator(detailedStatus);
+                    case "availableProcessors" -> detailedStatus = new AvailableProcessorsDecorator(detailedStatus, systemStatusFacade);
+                    case "freeJVMMemory" -> detailedStatus = new FreeJvmMemoryDecorator(detailedStatus, systemStatusFacade);
+                    case "totalJVMMemory" -> detailedStatus = new TotalJVMMemoryDecorator(detailedStatus, systemStatusFacade);
+                    case "jreVersion" -> detailedStatus = new JREVersionDecorator(detailedStatus, systemStatusFacade);
+                    case "tempLocation" -> detailedStatus = new TempLocationDecorator(detailedStatus, systemStatusFacade);
                     default -> throw new ResponseStatusException(
                             HttpStatus.BAD_REQUEST, "Invalid details option: " + detail);
                 }
@@ -83,5 +86,9 @@ public class StatusController {
 
         }
         return detailedStatus; //todo shouldn't just return null
+    }
+
+    public static void setSystemInfoFacade(SystemStatusFacadeInterface systemStatusFacade){
+            StatusController.systemStatusFacade = systemStatusFacade;
     }
 }

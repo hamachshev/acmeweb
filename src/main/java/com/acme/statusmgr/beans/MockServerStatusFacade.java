@@ -1,0 +1,28 @@
+package com.acme.statusmgr.beans;
+
+public class MockServerStatusFacade implements SystemStatusFacadeInterface{
+    @Override
+    public String getAvailableProcessors() {
+        return ", and there are 4 processors available";
+    }
+
+    @Override
+    public String getFreeMemory() {
+        return ", and there are 127268272 bytes of JVM memory free";
+    }
+
+    @Override
+    public String getJREVersion() {
+        return ", and there is a total of 159383552 bytes of JVM memory";
+    }
+
+    @Override
+    public String getTempLocation() {
+        return ", and the JRE version is 15.0.2+7-27";
+    }
+
+    @Override
+    public String getTotalJVMMemory() {
+        return ", and the server's temp file location is M:\\\\AppData\\\\Local\\\\Temp";
+    }
+}

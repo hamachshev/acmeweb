@@ -3,8 +3,11 @@ package com.acme.statusmgr.beans;
 public class AvailableProcessorsDecorator implements  ServerStatusInterface{
 
     private final ServerStatusInterface severStatus;
-    public AvailableProcessorsDecorator(ServerStatusInterface serverStatus) {
+
+    private final SystemStatusFacadeInterface systemStatusFacade;
+    public AvailableProcessorsDecorator(ServerStatusInterface serverStatus, SystemStatusFacadeInterface systemStatusFacade) {
         this.severStatus = serverStatus;
+        this.systemStatusFacade = systemStatusFacade;
     }
 
     @Override
@@ -19,7 +22,7 @@ public class AvailableProcessorsDecorator implements  ServerStatusInterface{
 
     @Override
     public String getStatusDesc() {
-        return severStatus.getStatusDesc() + SystemStatusFacade.getAvailableProcessors();
+        return severStatus.getStatusDesc() + systemStatusFacade.getAvailableProcessors();
     }
 
     @Override

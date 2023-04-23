@@ -1,27 +1,27 @@
 package com.acme.statusmgr.beans;
 
-public class SystemStatusFacade {
-    static String getAvailableProcessors() {
+public class SystemStatusFacade implements SystemStatusFacadeInterface{
+     public String getAvailableProcessors() {
         return ", and there are " + Runtime.getRuntime().availableProcessors() + " processors available";
 
     }
 
-    static String getFreeMemory() {
+     public String getFreeMemory() {
         return ", and there are " + Runtime.getRuntime().freeMemory() + " bytes of JVM memory free";
 
     }
 
-    static String getJREVersion() {
+     public String getJREVersion() {
         return ", and the JRE version is " + Runtime.version().toString();
 
     }
 
-    static String getTempLocation() {
+     public String getTempLocation() {
         return ", and the server's temp file location is " + System.getenv("TEMP");
 
     }
 
-    static String getTotalJVMMemory() {
+     public String getTotalJVMMemory() {
         return ", and there is a total of " + Runtime.getRuntime().totalMemory() + " bytes of JVM memory";
 
     }

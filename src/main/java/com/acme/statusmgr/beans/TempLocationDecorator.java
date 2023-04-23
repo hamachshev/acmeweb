@@ -3,8 +3,10 @@ package com.acme.statusmgr.beans;
 public class TempLocationDecorator implements ServerStatusInterface{
 
     private final ServerStatusInterface severStatus;
-    public TempLocationDecorator(ServerStatusInterface serverStatus) {
+    private final SystemStatusFacadeInterface systemStatusFacade;
+    public TempLocationDecorator(ServerStatusInterface serverStatus, SystemStatusFacadeInterface systemStatusFacade) {
         this.severStatus = serverStatus;
+        this.systemStatusFacade = systemStatusFacade;
     }
 
     @Override
@@ -19,7 +21,7 @@ public class TempLocationDecorator implements ServerStatusInterface{
 
     @Override
     public String getStatusDesc() {
-        return severStatus.getStatusDesc() + SystemStatusFacade.getTempLocation();
+        return severStatus.getStatusDesc() + systemStatusFacade.getTempLocation();
     }
 
     @Override
