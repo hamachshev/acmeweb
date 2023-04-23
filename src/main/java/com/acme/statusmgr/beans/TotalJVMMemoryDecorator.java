@@ -19,7 +19,7 @@ public class TotalJVMMemoryDecorator implements  ServerStatusInterface{
 
     @Override
     public String getStatusDesc() {
-        return severStatus.getStatusDesc() + ", and there is a total of " + Runtime.getRuntime().totalMemory() + " bytes of JVM memory";
+        return severStatus.getStatusDesc() + SystemStatusFacade.getTotalJVMMemory();
     }
 
     @Override

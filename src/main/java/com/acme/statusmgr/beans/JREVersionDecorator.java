@@ -19,7 +19,7 @@ public class JREVersionDecorator implements  ServerStatusInterface{
 
     @Override
     public String getStatusDesc() {
-        return severStatus.getStatusDesc() + ", and the JRE version is " + Runtime.version().toString();
+        return severStatus.getStatusDesc() + SystemStatusFacade.getJREVersion();
     }
 
     @Override

@@ -19,7 +19,7 @@ public class AvailableProcessorsDecorator implements  ServerStatusInterface{
 
     @Override
     public String getStatusDesc() {
-        return severStatus.getStatusDesc() + ", and there are " + Runtime.getRuntime().availableProcessors() + " processors available";
+        return severStatus.getStatusDesc() + SystemStatusFacade.getAvailableProcessors();
     }
 
     @Override

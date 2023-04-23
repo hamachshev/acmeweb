@@ -19,7 +19,7 @@ public class TempLocationDecorator implements ServerStatusInterface{
 
     @Override
     public String getStatusDesc() {
-        return severStatus.getStatusDesc() + ", and the server's temp file location is  " + System.getenv("TEMP");
+        return severStatus.getStatusDesc() + SystemStatusFacade.getTempLocation();
     }
 
     @Override

@@ -19,7 +19,7 @@ public class FreeJvmMemoryDecorator implements  ServerStatusInterface{
 
     @Override
     public String getStatusDesc() {
-        return severStatus.getStatusDesc() + ", and there are " + Runtime.getRuntime().freeMemory() + " bytes of JVM memory free";
+        return severStatus.getStatusDesc() + SystemStatusFacade.getFreeMemory();
     }
 
     @Override
