@@ -1,6 +1,6 @@
 package com.acme.statusmgr;
 
-import com.acme.statusmgr.beans.ServerStatus;
+import com.acme.statusmgr.beans.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,17 +55,26 @@ public class StatusController {
      *      * @apiNote TODO since Spring picks apart the object returned with Reflection and doesn't care what the return-object's type is, we can change the type of object we return if necessary
      */
     @RequestMapping("/status/detailed")
-    public ServerStatus getDetailedStatus(
+    public ServerStatusInterface getDetailedStatus(
             @RequestParam(value = "name", defaultValue = "Anonymous") String name,
             @RequestParam List<String> details) {
 
-        ServerStatus detailedStatus = null;
+        ServerStatusInterface detailedStatus = new ServerStatus(counter.incrementAndGet(),
+                String.format(template, name));
 
         if (details != null) {
             Logger logger = LoggerFactory.getLogger("StatusController");
             logger.info("Details were provided: " + Arrays.toString(details.toArray()));
 
-            //todo Should do something with all these details that were requested
+            for(String detail : details) {
+                switch (detail) {
+                    case "availableProcessors" -> detailedStatus = new AvailableProcessorsDecorator(detailedStatus);
+                    case "freeJVMMemory" -> detailedStatus = new FreeJvmMemoryDecorator(detailedStatus);
+                    case "totalJVMMemory" -> detailedStatus = new TotalJVMMemoryDecorator(detailedStatus);
+                    case "jreVersion" -> detailedStatus = new JREVersionDecorator(detailedStatus);
+                    case "tempLocation" -> detailedStatus = new TempLocationDecorator(detailedStatus);
+                }
+            }
 
 
         }

@@ -5,7 +5,7 @@ import com.acme.servermgr.ServerManager;
 /**
  * A POJO that represents Server Status and can be returned to Spring as the result of a request.
  */
-public class ServerStatus {
+public class ServerStatus implements ServerStatusInterface{
     private long id;                // Unique identifier of request, sequential number
     private String contentHeader;   // Some info about the request
     /**
