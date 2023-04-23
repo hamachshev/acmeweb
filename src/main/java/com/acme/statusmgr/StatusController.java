@@ -72,14 +72,20 @@ public class StatusController {
             logger.info("Details were provided: " + Arrays.toString(details.toArray()));
 
             for(String detail : details) {
+
+                logger.info("Decorating with detail: " + detail);
+
                 switch (detail) {
                     case "availableProcessors" -> detailedStatus = new AvailableProcessorsDecorator(detailedStatus, systemStatusFacade);
                     case "freeJVMMemory" -> detailedStatus = new FreeJvmMemoryDecorator(detailedStatus, systemStatusFacade);
                     case "totalJVMMemory" -> detailedStatus = new TotalJVMMemoryDecorator(detailedStatus, systemStatusFacade);
                     case "jreVersion" -> detailedStatus = new JREVersionDecorator(detailedStatus, systemStatusFacade);
                     case "tempLocation" -> detailedStatus = new TempLocationDecorator(detailedStatus, systemStatusFacade);
-                    default -> throw new ResponseStatusException(
-                            HttpStatus.BAD_REQUEST, "Invalid details option: " + detail);
+                    default -> {
+                        logger.error("Invalid detail provided: " + detail);
+                        throw new ResponseStatusException(
+                                HttpStatus.BAD_REQUEST, "Invalid details option: " + detail);
+                    }
                 }
             }
 
@@ -89,6 +95,8 @@ public class StatusController {
     }
 
     public static void setSystemInfoFacade(SystemStatusFacadeInterface systemStatusFacade){
+            Logger logger = LoggerFactory.getLogger("StatusController");
+            logger.info("Setting facade to MockFacade for testing");
             StatusController.systemStatusFacade = systemStatusFacade;
     }
 }
