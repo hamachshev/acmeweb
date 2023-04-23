@@ -26,6 +26,6 @@ public class JREVersionDecorator implements  ServerStatusInterface{
 
     @Override
     public Integer getRequestCost() {
-        return severStatus.getRequestCost();
+        return severStatus.getRequestCost() + 19;
     }
 }

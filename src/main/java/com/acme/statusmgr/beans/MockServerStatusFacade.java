@@ -13,16 +13,16 @@ public class MockServerStatusFacade implements SystemStatusFacadeInterface{
 
     @Override
     public String getJREVersion() {
-        return ", and there is a total of 159383552 bytes of JVM memory";
+        return ", and the JRE version is 15.0.2+7-27" ;
     }
 
     @Override
     public String getTempLocation() {
-        return ", and the JRE version is 15.0.2+7-27";
+        return ", and the server's temp file location is M:\\\\AppData\\\\Local\\\\Temp";
     }
 
     @Override
     public String getTotalJVMMemory() {
-        return ", and the server's temp file location is M:\\\\AppData\\\\Local\\\\Temp";
+        return ", and there is a total of 159383552 bytes of JVM memory" ;
     }
 }

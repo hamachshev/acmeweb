@@ -45,7 +45,7 @@ public class StatusControllerDetailedTest {
      */
     @BeforeAll
     public static void beforeAll() {
-       //todo StatusController.setSystemInfoFacade(null /* todo: Inject appropriate object */);
+
         StatusController.setSystemInfoFacade(new MockServerStatusFacade());
     }
 

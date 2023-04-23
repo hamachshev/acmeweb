@@ -26,6 +26,6 @@ public class TempLocationDecorator implements ServerStatusInterface{
 
     @Override
     public Integer getRequestCost() {
-        return severStatus.getRequestCost();
+        return severStatus.getRequestCost() + 29;
     }
 }
