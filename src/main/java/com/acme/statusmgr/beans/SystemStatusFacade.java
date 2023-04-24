@@ -1,5 +1,8 @@
 package com.acme.statusmgr.beans;
 
+/**
+ * Represents a facade that represents all available details to be requested
+ */
 public class SystemStatusFacade implements SystemStatusFacadeInterface{
      public String getAvailableProcessors() {
         return ", and there are " + Runtime.getRuntime().availableProcessors() + " processors available";

@@ -1,5 +1,9 @@
 package com.acme.statusmgr.beans;
 
+/**
+ *  Decorates a ServerStatusInterface with the relevant information for the detail totalJVMMemory, including the
+ *  description and requestCost
+ */
 public class TotalJVMMemoryDecorator implements  ServerStatusInterface{
 
     private final ServerStatusInterface severStatus;

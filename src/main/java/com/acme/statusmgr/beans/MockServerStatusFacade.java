@@ -1,5 +1,8 @@
 package com.acme.statusmgr.beans;
 
+/**
+ * Represents a facade that represents all available details to be requested, to be able to have generic data for testing
+ */
 public class MockServerStatusFacade implements SystemStatusFacadeInterface{
     @Override
     public String getAvailableProcessors() {

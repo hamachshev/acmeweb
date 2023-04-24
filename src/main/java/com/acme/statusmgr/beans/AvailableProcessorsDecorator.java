@@ -1,5 +1,9 @@
 package com.acme.statusmgr.beans;
 
+/**
+ *  Decorates a ServerStatusInterface with the relevant information for the detail Available processors, including the
+ *  description and requestCost
+ */
 public class AvailableProcessorsDecorator implements  ServerStatusInterface{
 
     private final ServerStatusInterface severStatus;

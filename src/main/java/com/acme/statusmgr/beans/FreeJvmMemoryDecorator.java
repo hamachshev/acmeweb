@@ -1,5 +1,9 @@
 package com.acme.statusmgr.beans;
 
+/**
+ *  Decorates a ServerStatusInterface with the relevant information for the detail freeJVMMemory, including the
+ *  description and requestCost
+ */
 public class FreeJvmMemoryDecorator implements  ServerStatusInterface{
 
     private final ServerStatusInterface severStatus;

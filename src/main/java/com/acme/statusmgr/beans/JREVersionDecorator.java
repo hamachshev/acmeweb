@@ -1,5 +1,9 @@
 package com.acme.statusmgr.beans;
 
+/**
+ *  Decorates a ServerStatusInterface with the relevant information for the detail jreVersion, including the
+ *  description and requestCost
+ */
 public class JREVersionDecorator implements  ServerStatusInterface{
 
     private final ServerStatusInterface severStatus;

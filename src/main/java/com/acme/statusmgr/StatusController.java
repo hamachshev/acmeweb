@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * Syntax for URLS:
  * All start with /server
  * /status  will give back status of server
- * a param of 'name' specifies a requestor name to appear in response
+ * a param of 'name' specifies a requester name to appear in response
  * <p>
  * Examples:
  * http://localhost:8080/server/status
@@ -55,8 +55,8 @@ public class StatusController {
      * Process a request for detailed server status information
      *
      * @param name    optional param identifying the requester
-     * @param details optional param with a list of server status details being requested
-     * @return a ServerStatus object containing the info to be returned to the requestor
+     * @param details param with a list of server status details being requested
+     * @return a ServerStatusInterface object containing the info to be returned to the requester
      *
      */
     @RequestMapping("/status/detailed")
@@ -94,6 +94,11 @@ public class StatusController {
         return detailedStatus;
     }
 
+    /**
+     * Change the SystemInfoFacade (that houses all the available statuses) to a MockFacade for testing purposes
+     *
+     * @param systemStatusFacade
+     */
     public static void setSystemInfoFacade(SystemStatusFacadeInterface systemStatusFacade){
             Logger logger = LoggerFactory.getLogger("StatusController");
             logger.info("Setting facade to MockFacade for testing");
