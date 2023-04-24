@@ -1,11 +1,13 @@
 package com.acme.statusmgr;
 
-import com.acme.statusmgr.beans.ServerStatus;
+import com.acme.statusmgr.beans.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * Syntax for URLS:
  * All start with /server
  * /status  will give back status of server
- * a param of 'name' specifies a requestor name to appear in response
+ * a param of 'name' specifies a requester name to appear in response
  * <p>
  * Examples:
  * http://localhost:8080/server/status
@@ -32,12 +34,15 @@ public class StatusController {
     protected static final String template = "Server Status requested by %s";
     protected final AtomicLong counter = new AtomicLong();
 
+    private static SystemStatusFacadeInterface systemStatusFacade = new SystemStatusFacade();
+
+
     /**
      * Process a request for server status information
      *
      * @param name optional param identifying the requester
      * @return a ServerStatus object containing the info to be returned to the requestor
-     * @apiNote TODO since Spring picks apart the object returned with Reflection and doesn't care what the return-object's type is, we can change the type of object we return if necessary, as long as the object returned contained the required fields and getter methods.
+     *
      */
     @RequestMapping("/status")
     public ServerStatus getStatus(@RequestParam(value = "name", defaultValue = "Anonymous") String name) {
@@ -50,25 +55,53 @@ public class StatusController {
      * Process a request for detailed server status information
      *
      * @param name    optional param identifying the requester
-     * @param details optional param with a list of server status details being requested
-     * @return a ServerStatus object containing the info to be returned to the requestor
-     *      * @apiNote TODO since Spring picks apart the object returned with Reflection and doesn't care what the return-object's type is, we can change the type of object we return if necessary
+     * @param details param with a list of server status details being requested
+     * @return a ServerStatusInterface object containing the info to be returned to the requester
+     *
      */
     @RequestMapping("/status/detailed")
-    public ServerStatus getDetailedStatus(
+    public ServerStatusInterface getDetailedStatus(
             @RequestParam(value = "name", defaultValue = "Anonymous") String name,
             @RequestParam List<String> details) {
 
-        ServerStatus detailedStatus = null;
+        ServerStatusInterface detailedStatus = new ServerStatus(counter.incrementAndGet(),
+                String.format(template, name));
 
         if (details != null) {
             Logger logger = LoggerFactory.getLogger("StatusController");
             logger.info("Details were provided: " + Arrays.toString(details.toArray()));
 
-            //todo Should do something with all these details that were requested
+            for(String detail : details) {
+
+                logger.info("Decorating with detail: " + detail);
+
+                switch (detail) {
+                    case "availableProcessors" -> detailedStatus = new AvailableProcessorsDecorator(detailedStatus, systemStatusFacade);
+                    case "freeJVMMemory" -> detailedStatus = new FreeJvmMemoryDecorator(detailedStatus, systemStatusFacade);
+                    case "totalJVMMemory" -> detailedStatus = new TotalJVMMemoryDecorator(detailedStatus, systemStatusFacade);
+                    case "jreVersion" -> detailedStatus = new JREVersionDecorator(detailedStatus, systemStatusFacade);
+                    case "tempLocation" -> detailedStatus = new TempLocationDecorator(detailedStatus, systemStatusFacade);
+                    default -> {
+                        logger.error("Invalid detail provided: " + detail);
+                        throw new ResponseStatusException(
+                                HttpStatus.BAD_REQUEST, "Invalid details option: " + detail);
+                    }
+                }
+            }
 
 
         }
-        return detailedStatus; //todo shouldn't just return null
+        return detailedStatus;
+    }
+
+    /**
+     * Change the SystemInfoFacade (that houses all the available statuses) to a MockFacade for testing purposes
+     *
+     * @param systemStatusFacade
+     */
+    public static void setSystemInfoFacade(SystemStatusFacadeInterface systemStatusFacade){
+            Logger logger = LoggerFactory.getLogger("StatusController");
+            logger.info("Setting facade to MockFacade for testing");
+            StatusController.systemStatusFacade = systemStatusFacade;
     }
 }
